@@ -1098,6 +1098,157 @@
       color: var(--text-soft);
     }
 
+    .viewer-dashboard {
+      position: fixed;
+      left: 12px;
+      right: 12px;
+      bottom: calc(8px + var(--safe-bottom));
+      z-index: 24;
+      padding: 9px 10px 8px;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.74);
+      background: linear-gradient(145deg, rgba(255, 255, 255, 0.54), rgba(230, 239, 255, 0.34));
+      backdrop-filter: blur(12px) saturate(160%);
+      -webkit-backdrop-filter: blur(12px) saturate(160%);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.88), 0 10px 16px rgba(173, 137, 206, 0.18);
+      text-align: left;
+      --viewer-peek-height: 34px;
+    }
+
+    .viewer-dashboard-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .viewer-dashboard-title {
+      font-size: clamp(0.82rem, 1.2vw, 1rem);
+      font-weight: 700;
+      color: #8f4f7e;
+      letter-spacing: 0.02em;
+      white-space: nowrap;
+    }
+
+    .viewer-dashboard-status {
+      font-size: clamp(0.7rem, 1.02vw, 0.82rem);
+      color: #8f7391;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .viewer-dashboard-grid {
+      margin-top: 8px;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .viewer-metric {
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.74);
+      background: rgba(255, 255, 255, 0.52);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.84), 0 6px 10px rgba(166, 137, 201, 0.12);
+      padding: 8px 10px;
+      min-height: 46px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 3px;
+    }
+
+    .viewer-metric-label {
+      font-size: clamp(0.66rem, 0.98vw, 0.8rem);
+      color: #8a6f90;
+    }
+
+    .viewer-metric-value {
+      font-size: clamp(0.96rem, 1.35vw, 1.2rem);
+      line-height: 1.1;
+      font-weight: 700;
+      color: #7b3565;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .viewer-metric.is-total .viewer-metric-value {
+      color: #73315f;
+      font-size: clamp(1.04rem, 1.5vw, 1.34rem);
+    }
+
+    .viewer-metric-value.pulse {
+      animation: viewsPulse 700ms ease-out;
+    }
+
+    @keyframes viewsPulse {
+      0% {
+        color: #41bb7b;
+        text-shadow: 0 0 12px rgba(65, 187, 123, 0.5);
+      }
+      100% {
+        color: #7b3565;
+        text-shadow: none;
+      }
+    }
+
+    .viewer-chart-wrap {
+      margin-top: 6px;
+      border-radius: 10px;
+      height: 28px;
+      padding: 3px 2px;
+      background: rgba(255, 255, 255, 0.46);
+      border: 1px solid rgba(255, 255, 255, 0.68);
+      overflow: hidden;
+    }
+
+    .viewer-chart {
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+    }
+
+    .viewer-chart-line {
+      fill: none;
+      stroke: rgba(122, 58, 113, 0.94);
+      stroke-width: 2.2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .viewer-dashboard.offline .viewer-dashboard-status,
+    .viewer-dashboard.offline .viewer-metric-value {
+      color: #ab6c7e;
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      .viewer-dashboard {
+        transform: translateY(calc(100% - var(--viewer-peek-height)));
+        opacity: 0.86;
+        transition: transform 0.26s ease, opacity 0.24s ease, box-shadow 0.24s ease;
+        will-change: transform;
+      }
+
+      .viewer-dashboard:hover,
+      .viewer-dashboard:focus-within {
+        transform: translateY(0);
+        opacity: 1;
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9), 0 12px 18px rgba(173, 137, 206, 0.22);
+      }
+    }
+
+    @media (hover: none), (pointer: coarse) {
+      .viewer-dashboard {
+        transform: none;
+        opacity: 1;
+      }
+    }
+
+    @media (max-width: 860px) {
+      .viewer-dashboard-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
     .timer-grid {
       margin-top: 22px;
       display: grid;
@@ -1267,6 +1418,436 @@
       box-shadow: 0 8px 14px rgba(176, 137, 209, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.45);
     }
 
+    .diary-surprise {
+      margin-top: 14px;
+      padding: 12px;
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.72);
+      background: linear-gradient(145deg, rgba(255, 255, 255, 0.5), rgba(226, 235, 255, 0.32));
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.88), 0 10px 16px rgba(173, 138, 202, 0.16);
+      transition: transform 0.22s ease, box-shadow 0.22s ease, opacity 0.22s ease;
+    }
+
+    .diary-surprise.is-unlocked {
+      border-color: rgba(255, 139, 196, 0.58);
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.9),
+        0 12px 18px rgba(173, 138, 202, 0.2),
+        0 0 0 1px rgba(255, 166, 213, 0.35);
+    }
+
+    .diary-surprise.is-locked {
+      opacity: 0.88;
+      filter: saturate(0.85);
+    }
+
+    .diary-head {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .diary-kicker {
+      display: inline-flex;
+      align-self: flex-start;
+      padding: 4px 9px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.72);
+      background: rgba(255, 255, 255, 0.55);
+      color: #9c4d7f;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .diary-title {
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      font-size: clamp(0.94rem, 1.45vw, 1.1rem);
+      color: #844272;
+    }
+
+    .diary-month-pill {
+      border-radius: 999px;
+      padding: 3px 8px;
+      font-size: 0.68rem;
+      color: #fff;
+      background: linear-gradient(130deg, rgba(255, 127, 189, 0.95), rgba(133, 184, 255, 0.96));
+      box-shadow: 0 6px 10px rgba(179, 143, 210, 0.22);
+    }
+
+    .diary-status {
+      margin: 0;
+      font-size: clamp(0.74rem, 1.05vw, 0.86rem);
+      color: #8c6d90;
+      min-height: 1.2em;
+    }
+
+    .diary-open-btn {
+      border: 1px solid rgba(255, 255, 255, 0.72);
+      border-radius: 999px;
+      padding: 7px 12px;
+      background: linear-gradient(130deg, rgba(255, 127, 189, 0.95), rgba(133, 184, 255, 0.96));
+      color: #fff;
+      font: 700 0.78rem "Mali", sans-serif;
+      cursor: pointer;
+      box-shadow: 0 8px 14px rgba(178, 136, 206, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.46);
+      transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+    }
+
+    .diary-actions {
+      margin-top: 8px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .diary-memory-btn {
+      border: 1px solid rgba(255, 255, 255, 0.74);
+      border-radius: 999px;
+      padding: 7px 12px;
+      background: rgba(255, 255, 255, 0.62);
+      color: #9a4f7d;
+      font: 700 0.75rem "Mali", sans-serif;
+      cursor: pointer;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.88), 0 6px 12px rgba(178, 136, 206, 0.14);
+      transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+    }
+
+    .diary-open-btn.is-locked {
+      opacity: 0.72;
+      cursor: not-allowed;
+      background: linear-gradient(130deg, rgba(186, 167, 191, 0.95), rgba(161, 174, 199, 0.95));
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.46);
+    }
+
+    .diary-open-btn.is-live {
+      animation: surpriseBlink 1.45s ease-in-out infinite;
+    }
+
+    .diary-open-btn.shake {
+      animation: lockShake 320ms ease;
+    }
+
+    @keyframes surpriseBlink {
+      0%,
+      100% {
+        box-shadow: 0 8px 14px rgba(178, 136, 206, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.46);
+        filter: saturate(1);
+      }
+      50% {
+        box-shadow: 0 12px 20px rgba(253, 123, 184, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.58);
+        filter: saturate(1.18);
+      }
+    }
+
+    @keyframes lockShake {
+      0% { transform: translateX(0); }
+      25% { transform: translateX(-4px); }
+      50% { transform: translateX(4px); }
+      75% { transform: translateX(-2px); }
+      100% { transform: translateX(0); }
+    }
+
+    .diary-open-btn:active {
+      transform: scale(0.97);
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      .diary-open-btn:hover:not(.is-locked),
+      .diary-memory-btn:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 11px 16px rgba(178, 136, 206, 0.24), inset 0 1px 0 rgba(255, 255, 255, 0.46);
+      }
+    }
+
+    .diary-book {
+      display: grid;
+      margin-top: 10px;
+      gap: 8px;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .diary-page {
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.7);
+      background: rgba(255, 255, 255, 0.56);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.86), 0 6px 10px rgba(163, 135, 198, 0.12);
+      padding: 8px 9px;
+    }
+
+    .diary-page-label {
+      display: inline-flex;
+      padding: 2px 7px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.68);
+      color: #995180;
+      font-size: 0.64rem;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+    }
+
+    .diary-page p {
+      margin: 7px 0 0;
+      font-size: clamp(0.7rem, 0.95vw, 0.8rem);
+      color: #865f8b;
+      line-height: 1.45;
+    }
+
+    .memory-toast {
+      position: fixed;
+      left: 50%;
+      bottom: calc(74px + var(--safe-bottom));
+      transform: translate(-50%, 12px);
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.72);
+      background: rgba(37, 20, 42, 0.82);
+      color: #fff;
+      font-size: 0.78rem;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 58;
+      transition: opacity 0.22s ease, transform 0.22s ease;
+      box-shadow: 0 10px 16px rgba(28, 12, 30, 0.36);
+    }
+
+    .memory-toast.is-visible {
+      opacity: 1;
+      transform: translate(-50%, 0);
+    }
+
+    .memory-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 85;
+      display: grid;
+      place-items: center;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: opacity 0.24s ease, visibility 0.24s ease;
+    }
+
+    .memory-modal.is-open {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+    }
+
+    .memory-modal-backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(20, 10, 30, 0.48);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+
+    .memory-modal-panel {
+      position: relative;
+      width: min(92vw, 860px);
+      max-height: min(86vh, 760px);
+      overflow: auto;
+      border-radius: 22px;
+      border: 1px solid rgba(255, 255, 255, 0.72);
+      background: linear-gradient(150deg, rgba(255, 255, 255, 0.58), rgba(227, 236, 255, 0.38));
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9), 0 26px 44px rgba(17, 10, 32, 0.36);
+      padding: 18px;
+    }
+
+    .memory-modal-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .memory-modal-title {
+      margin: 0;
+      color: #7f3d6a;
+      font-size: clamp(1rem, 1.6vw, 1.3rem);
+    }
+
+    .memory-close-btn {
+      border: 1px solid rgba(255, 255, 255, 0.72);
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.66);
+      color: #934e7b;
+      font: 700 1rem "Mali", sans-serif;
+      cursor: pointer;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9), 0 7px 12px rgba(165, 136, 199, 0.18);
+    }
+
+    .memory-polaroid {
+      margin-top: 12px;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.76);
+      box-shadow: 0 14px 24px rgba(145, 115, 180, 0.2);
+      padding: 12px;
+    }
+
+    .memory-video-wrap {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      border-radius: 12px;
+      overflow: hidden;
+      background: linear-gradient(150deg, rgba(44, 32, 56, 0.95), rgba(23, 19, 35, 0.95));
+      display: grid;
+      place-items: center;
+    }
+
+    .memory-video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      background: #120d1d;
+    }
+
+    .memory-video[hidden] {
+      display: none;
+    }
+
+    .memory-placeholder {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      padding: 16px;
+      color: rgba(255, 234, 249, 0.92);
+      font-size: clamp(0.78rem, 1vw, 0.92rem);
+      line-height: 1.5;
+    }
+
+    .memory-meta {
+      margin-top: 10px;
+      display: grid;
+      gap: 6px;
+    }
+
+    .memory-month-tag {
+      display: inline-flex;
+      width: fit-content;
+      padding: 3px 9px;
+      border-radius: 999px;
+      background: linear-gradient(130deg, rgba(255, 127, 189, 0.95), rgba(133, 184, 255, 0.96));
+      color: #fff;
+      font-size: 0.7rem;
+      font-weight: 700;
+    }
+
+    .memory-note {
+      margin: 0;
+      color: #855e8a;
+      font-size: 0.86rem;
+    }
+
+    .memory-player-actions {
+      margin-top: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .memory-play-btn {
+      border: 1px solid rgba(255, 255, 255, 0.74);
+      border-radius: 999px;
+      padding: 7px 12px;
+      background: linear-gradient(130deg, rgba(255, 127, 189, 0.95), rgba(133, 184, 255, 0.96));
+      color: #fff;
+      font: 700 0.77rem "Mali", sans-serif;
+      cursor: pointer;
+      box-shadow: 0 8px 14px rgba(178, 136, 206, 0.18);
+    }
+
+    .memory-play-btn:disabled {
+      opacity: 0.64;
+      cursor: not-allowed;
+      background: linear-gradient(130deg, rgba(186, 167, 191, 0.95), rgba(161, 174, 199, 0.95));
+    }
+
+    .memory-lane-grid {
+      margin-top: 12px;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .memory-lane-item {
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.72);
+      background: rgba(255, 255, 255, 0.64);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.88), 0 8px 14px rgba(165, 136, 199, 0.14);
+      padding: 10px;
+      cursor: pointer;
+      text-align: left;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+    }
+
+    .memory-lane-item.is-upcoming {
+      opacity: 0.68;
+      cursor: not-allowed;
+      filter: saturate(0.85);
+    }
+
+    .memory-lane-item h4 {
+      margin: 0;
+      color: #7f416f;
+      font-size: 0.88rem;
+    }
+
+    .memory-lane-item p {
+      margin: 5px 0 0;
+      color: #8a668f;
+      font-size: 0.74rem;
+      line-height: 1.45;
+    }
+
+    .memory-lane-item:active:not(.is-upcoming) {
+      transform: scale(0.98);
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      .memory-lane-item:hover:not(.is-upcoming) {
+        transform: translateY(-2px);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.88), 0 11px 16px rgba(165, 136, 199, 0.2);
+      }
+    }
+
+    .confetti-piece {
+      position: fixed;
+      top: -16px;
+      left: 0;
+      width: 9px;
+      height: 13px;
+      border-radius: 2px;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 63;
+      animation: confettiFall var(--dur, 2.8s) cubic-bezier(0.2, 0.86, 0.2, 1) forwards;
+    }
+
+    @keyframes confettiFall {
+      from {
+        opacity: 1;
+        transform: translate3d(0, 0, 0) rotate(0deg);
+      }
+      to {
+        opacity: 1;
+        transform: translate3d(var(--dx, 0px), var(--dy, 110vh), 0) rotate(var(--rot, 360deg));
+      }
+    }
+
     .trail-heart {
       position: absolute;
       left: var(--x, 50%);
@@ -1338,6 +1919,18 @@
 
       .timer-grid {
         grid-template-columns: repeat(2, minmax(116px, 1fr));
+      }
+
+      .diary-book {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .memory-lane-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .memory-modal-panel {
+        width: min(94vw, 720px);
       }
 
       .orbit-clock {
@@ -1451,12 +2044,86 @@
         font-size: clamp(0.88rem, 4vw, 1rem);
       }
 
+      .viewer-dashboard {
+        left: 8px;
+        right: 8px;
+        bottom: calc(6px + var(--safe-bottom));
+        padding: 8px 8px 6px;
+        border-radius: 12px;
+      }
+
+      .viewer-dashboard-status {
+        font-size: 0.63rem;
+      }
+
+      .viewer-metric {
+        min-height: 40px;
+        padding: 6px 8px;
+      }
+
+      .viewer-metric-value {
+        font-size: 0.9rem;
+      }
+
+      .viewer-metric.is-total .viewer-metric-value {
+        font-size: 1rem;
+      }
+
+      .viewer-chart-wrap {
+        display: none;
+      }
+
       .timeline {
         padding: 10px 8px;
       }
 
       .timer-grid {
         gap: 10px;
+      }
+
+      .diary-surprise {
+        margin-top: 12px;
+        padding: 10px;
+      }
+
+      .diary-actions {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .diary-open-btn,
+      .diary-memory-btn {
+        width: 100%;
+        text-align: center;
+      }
+
+      .diary-book {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 7px;
+      }
+
+      .diary-page p {
+        font-size: 0.72rem;
+      }
+
+      .memory-modal-panel {
+        width: min(96vw, 420px);
+        padding: 12px;
+      }
+
+      .memory-modal-head {
+        gap: 8px;
+      }
+
+      .memory-lane-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .memory-toast {
+        max-width: 90vw;
+        text-align: center;
+        font-size: 0.72rem;
+        padding: 7px 10px;
       }
 
       .monchhichi-wrap {
@@ -1659,6 +2326,37 @@
           <div class="btn-row">
             <button id="btn-love" type="button">ฉลองเวลาแห่งรัก 💖</button>
           </div>
+
+          <section class="diary-surprise is-locked" id="diary-surprise" aria-live="polite">
+            <div class="diary-head">
+              <span class="diary-kicker">Monthly Surprise</span>
+              <h3 class="diary-title">
+                อัลบั้มไดอารี่
+                <span class="diary-month-pill" id="diary-month-pill">Month 1</span>
+              </h3>
+              <p class="diary-status" id="diary-status">อัลบั้มจะเปิดเฉพาะวันที่ 6 ของทุกเดือน</p>
+            </div>
+            <div class="diary-actions">
+              <button class="diary-open-btn is-locked" id="btn-diary-open" type="button" aria-disabled="true">
+                รอเปิดกล่องความทรงจำวันที่ 6 นะ 🤫
+              </button>
+              <button class="diary-memory-btn" id="btn-memory-lane" type="button">คลังความทรงจำ</button>
+            </div>
+            <div class="diary-book" id="diary-book">
+              <article class="diary-page">
+                <span class="diary-page-label">หน้า 01</span>
+                <p>เดือนแรกของเราเริ่มจากเรื่องเล็กๆ แต่ทุกวินาทีมีความหมายเสมอ.</p>
+              </article>
+              <article class="diary-page">
+                <span class="diary-page-label">หน้า 02</span>
+                <p>ขอบคุณที่อยู่ด้วยกันในวันธรรมดา จนกลายเป็นวันที่น่าจดจำ.</p>
+              </article>
+              <article class="diary-page">
+                <span class="diary-page-label">หน้า 03</span>
+                <p>หน้านี้เว้นไว้สำหรับความทรงจำใหม่ของเดือนถัดไป 💗</p>
+              </article>
+            </div>
+          </section>
         </div>
 
         <aside class="mon-pane">
@@ -1722,6 +2420,77 @@
     </section>
   </main>
 
+  <div class="viewer-dashboard" id="viewer-dashboard" aria-live="polite">
+    <div class="viewer-dashboard-head">
+      <span class="viewer-dashboard-title">แดชบอร์ดคนดู</span>
+      <span class="viewer-dashboard-status" id="viewer-dashboard-status">กำลังอัปเดต...</span>
+    </div>
+    <div class="viewer-dashboard-grid">
+      <div class="viewer-metric is-total">
+        <span class="viewer-metric-label">ยอดรวม</span>
+        <span class="viewer-metric-value" id="viewer-total-views">0</span>
+      </div>
+      <div class="viewer-metric">
+        <span class="viewer-metric-label">วันนี้</span>
+        <span class="viewer-metric-value" id="viewer-today-views">0</span>
+      </div>
+      <div class="viewer-metric">
+        <span class="viewer-metric-label">ออนไลน์</span>
+        <span class="viewer-metric-value" id="viewer-online-views">0</span>
+      </div>
+      <div class="viewer-metric">
+        <span class="viewer-metric-label">ประเทศหลัก</span>
+        <span class="viewer-metric-value" id="viewer-top-country">--</span>
+      </div>
+    </div>
+    <div class="viewer-chart-wrap" aria-hidden="true">
+      <svg class="viewer-chart" viewBox="0 0 100 26" preserveAspectRatio="none">
+        <path class="viewer-chart-line" id="viewer-sparkline" d=""></path>
+      </svg>
+    </div>
+  </div>
+
+  <div class="memory-toast" id="memory-toast" aria-live="polite"></div>
+
+  <div class="memory-modal" id="memory-video-modal" aria-hidden="true">
+    <div class="memory-modal-backdrop" data-modal-close="memory-video"></div>
+    <section class="memory-modal-panel" role="dialog" aria-modal="true" aria-labelledby="memory-video-title">
+      <div class="memory-modal-head">
+        <h3 class="memory-modal-title" id="memory-video-title">อัลบั้มคลิปความทรงจำ</h3>
+        <button class="memory-close-btn" id="btn-memory-video-close" type="button" aria-label="ปิดหน้าต่าง">✕</button>
+      </div>
+      <div class="memory-polaroid">
+        <div class="memory-video-wrap">
+          <video class="memory-video" id="memory-video" preload="metadata" playsinline hidden></video>
+          <div class="memory-placeholder" id="memory-video-placeholder">
+            กำลังเตรียมคลิปเดือนนี้อยู่<br>
+            ใส่ไฟล์วิดีโอได้ที่ `public/memories/month-xx.mp4`
+          </div>
+        </div>
+        <div class="memory-meta">
+          <span class="memory-month-tag" id="memory-month-tag">Month 1</span>
+          <p class="memory-note" id="memory-date-label">สรุปความทรงจำประจำเดือนของเรา</p>
+          <p class="memory-note" id="memory-note-text">พื้นที่นี้ไว้เขียนความรู้สึกของเดือนนั้นได้เลย ✨</p>
+        </div>
+        <div class="memory-player-actions">
+          <button class="memory-play-btn" id="btn-memory-play" type="button" disabled>💗 เล่นคลิป</button>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div class="memory-modal" id="memory-lane-modal" aria-hidden="true">
+    <div class="memory-modal-backdrop" data-modal-close="memory-lane"></div>
+    <section class="memory-modal-panel" role="dialog" aria-modal="true" aria-labelledby="memory-lane-title">
+      <div class="memory-modal-head">
+        <h3 class="memory-modal-title" id="memory-lane-title">Memory Lane Timeline</h3>
+        <button class="memory-close-btn" id="btn-memory-lane-close" type="button" aria-label="ปิดหน้าต่าง">✕</button>
+      </div>
+      <p class="memory-note">คลังความทรงจำรายเดือน กดแต่ละเดือนเพื่อเปิดคลิปเต็ม</p>
+      <div class="memory-lane-grid" id="memory-lane-grid"></div>
+    </section>
+  </div>
+
   <script async src="https://www.youtube.com/iframe_api"></script>
 
   <script>
@@ -1732,6 +2501,13 @@
     const elMins = document.getElementById("t-mins");
     const elSecs = document.getElementById("t-secs");
     const labelStartDate = document.getElementById("start-date-label");
+    const viewerDashboard = document.getElementById("viewer-dashboard");
+    const viewerDashboardStatus = document.getElementById("viewer-dashboard-status");
+    const viewerTotalViews = document.getElementById("viewer-total-views");
+    const viewerTodayViews = document.getElementById("viewer-today-views");
+    const viewerOnlineViews = document.getElementById("viewer-online-views");
+    const viewerTopCountry = document.getElementById("viewer-top-country");
+    const viewerSparkline = document.getElementById("viewer-sparkline");
     const timelineFill = document.getElementById("timeline-fill");
     const timeNow = document.getElementById("time-now");
     const orbitClock = document.getElementById("orbit-clock");
@@ -1745,9 +2521,51 @@
     const musicWidget = document.getElementById("music-widget");
     const musicStatus = document.getElementById("music-status");
     const btnMusicToggle = document.getElementById("btn-music-toggle");
+    const diarySurprise = document.getElementById("diary-surprise");
+    const diaryStatus = document.getElementById("diary-status");
+    const diaryBook = document.getElementById("diary-book");
+    const diaryMonthPill = document.getElementById("diary-month-pill");
+    const btnDiaryOpen = document.getElementById("btn-diary-open");
+    const btnMemoryLane = document.getElementById("btn-memory-lane");
+    const memoryToast = document.getElementById("memory-toast");
+    const memoryVideoModal = document.getElementById("memory-video-modal");
+    const memoryLaneModal = document.getElementById("memory-lane-modal");
+    const btnMemoryVideoClose = document.getElementById("btn-memory-video-close");
+    const btnMemoryLaneClose = document.getElementById("btn-memory-lane-close");
+    const memoryVideo = document.getElementById("memory-video");
+    const memoryVideoPlaceholder = document.getElementById("memory-video-placeholder");
+    const memoryMonthTag = document.getElementById("memory-month-tag");
+    const memoryDateLabel = document.getElementById("memory-date-label");
+    const memoryNoteText = document.getElementById("memory-note-text");
+    const btnMemoryPlay = document.getElementById("btn-memory-play");
+    const memoryLaneGrid = document.getElementById("memory-lane-grid");
     const ytAudioPlayerHost = document.getElementById("yt-audio-player");
     const YT_VIDEO_ID = "R3QhgdTg2wU";
     const YT_START_SECONDS = 120;
+    const MONTHLY_ANNIVERSARY_DAY = 6;
+    const MEMORY_ENTRIES = [
+      {
+        month: 1,
+        title: "Month 1: The Beginning",
+        period: "ช่วงเดือนที่ 1 ของเรา",
+        note: "เดือนแรกของเราเริ่มจากเรื่องเล็กๆ แต่ทุกอย่างพิเศษมาก",
+        videoSrc: "public/memories/month-01.mp4"
+      },
+      {
+        month: 2,
+        title: "Month 2: Growing Together",
+        period: "ช่วงเดือนที่ 2 ของเรา",
+        note: "เก็บช่วงเวลาน่ารักๆ ของเดือนนี้ไว้ในคลิปเดียว",
+        videoSrc: "public/memories/month-02.mp4"
+      },
+      {
+        month: 3,
+        title: "Month 3: Still Us",
+        period: "ช่วงเดือนที่ 3 ของเรา",
+        note: "บันทึกทุกโมเมนต์ที่อยากย้อนกลับมาดูซ้ำ",
+        videoSrc: "public/memories/month-03.mp4"
+      }
+    ];
 
     const timerBoxes = {
       days: document.getElementById("box-days"),
@@ -1785,6 +2603,17 @@
     let celebrationMonNode = null;
     let celebrationTimer = null;
     let celebrationBurstTimer = null;
+    let viewerDashboardTimer = null;
+    let viewerDashboardRequestInFlight = false;
+    let analyticsVisitTracked = false;
+    let previousTotalViews = null;
+    let diaryCelebratedMonthKey = null;
+    let confettiCelebratedMonthKey = null;
+    let isDiaryUnlocked = false;
+    let unlockedAnniversaryMonth = 1;
+    let activeMemoryEntry = null;
+    let memoryToastTimer = null;
+    let memoryLaneRenderedForMonths = -1;
 
     function setMusicState(playing, statusText = "") {
       if (musicWidget) {
@@ -1803,6 +2632,162 @@
         orbitClock.classList.toggle("turbo", playing);
       }
       musicPlaying = playing;
+    }
+
+    function readAnalyticsConfig() {
+      const analyticsScript = document.getElementById("analytics-config");
+      const rawBaseUrl =
+        (analyticsScript && (analyticsScript.dataset.baseUrl || analyticsScript.dataset.endpoint)) ||
+        window.location.origin;
+      const pollMsRaw = Number((analyticsScript && analyticsScript.dataset.pollMs) || 5000);
+      const shouldTrack = ((analyticsScript && analyticsScript.dataset.track) || "true").toLowerCase() !== "false";
+
+      return {
+        baseUrl: rawBaseUrl.replace(/\/+$/, ""),
+        apiKey: (analyticsScript && analyticsScript.dataset.apiKey) || "",
+        pollMs: Number.isFinite(pollMsRaw) && pollMsRaw >= 1000 ? pollMsRaw : 5000,
+        shouldTrack
+      };
+    }
+
+    function buildAnalyticsUrl(baseUrl, pathname, apiKey, query) {
+      const url = new URL(baseUrl + pathname);
+      if (apiKey) {
+        url.searchParams.set("apiKey", apiKey);
+      }
+      if (query && typeof query === "object") {
+        Object.entries(query).forEach(([key, value]) => {
+          if (value !== undefined && value !== null) {
+            url.searchParams.set(key, String(value));
+          }
+        });
+      }
+      return url.toString();
+    }
+
+    function formatViewNumber(value) {
+      return Number(value || 0).toLocaleString("th-TH");
+    }
+
+    function toSparklinePath(points, width, height) {
+      if (!Array.isArray(points) || points.length === 0) {
+        return "";
+      }
+
+      const values = points.map((n) => Number(n) || 0);
+      const min = Math.min(...values);
+      const max = Math.max(...values);
+      const range = max - min || 1;
+      const padding = 2;
+      const step = values.length > 1 ? (width - padding * 2) / (values.length - 1) : 0;
+
+      return values
+        .map((value, index) => {
+          const x = padding + index * step;
+          const y = height - padding - ((value - min) / range) * (height - padding * 2);
+          return `${index === 0 ? "M" : "L"}${x.toFixed(2)} ${y.toFixed(2)}`;
+        })
+        .join(" ");
+    }
+
+    function setViewerDashboardStatus(message, isOffline = false) {
+      if (!viewerDashboard || !viewerDashboardStatus) return;
+      viewerDashboard.classList.toggle("offline", Boolean(isOffline));
+      viewerDashboardStatus.textContent = message;
+    }
+
+    function applyViewerStats(payload) {
+      if (
+        !viewerTotalViews ||
+        !viewerTodayViews ||
+        !viewerOnlineViews ||
+        !viewerTopCountry ||
+        !viewerSparkline
+      ) {
+        return;
+      }
+
+      const totalViews = Number(payload.totalViews) || 0;
+      const todayViews = Number(payload.todayViews) || 0;
+      const currentOnline = Number(payload.currentOnline) || 0;
+      const topCountry = payload.topCountry || "--";
+      const sparkline = Array.isArray(payload.sparkline) ? payload.sparkline : [];
+
+      if (previousTotalViews !== null && totalViews > previousTotalViews) {
+        viewerTotalViews.classList.remove("pulse");
+        void viewerTotalViews.offsetWidth;
+        viewerTotalViews.classList.add("pulse");
+      }
+
+      previousTotalViews = totalViews;
+      viewerTotalViews.textContent = formatViewNumber(totalViews);
+      viewerTodayViews.textContent = formatViewNumber(todayViews);
+      viewerOnlineViews.textContent = formatViewNumber(currentOnline);
+      viewerTopCountry.textContent = String(topCountry);
+      viewerSparkline.setAttribute("d", toSparklinePath(sparkline, 100, 26));
+    }
+
+    function trackViewerVisit(config) {
+      if (!config.apiKey || !config.shouldTrack || analyticsVisitTracked) return;
+      analyticsVisitTracked = true;
+      fetch(
+        buildAnalyticsUrl(config.baseUrl, "/track", config.apiKey, {
+          url: window.location.href
+        }),
+        {
+          method: "GET",
+          mode: "cors",
+          cache: "no-store",
+          keepalive: true
+        }
+      ).catch(() => {
+        // Ignore tracking failures to avoid blocking page features.
+      });
+    }
+
+    async function refreshViewerDashboard(config) {
+      if (!viewerDashboard) return;
+      if (viewerDashboardRequestInFlight) return;
+      if (!config.apiKey) {
+        setViewerDashboardStatus("ยังไม่ได้ตั้งค่า API key", true);
+        return;
+      }
+
+      viewerDashboardRequestInFlight = true;
+      try {
+        const response = await fetch(buildAnalyticsUrl(config.baseUrl, "/api/stats", config.apiKey), {
+          method: "GET",
+          mode: "cors",
+          cache: "no-store"
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch stats");
+        }
+
+        applyViewerStats(await response.json());
+        setViewerDashboardStatus(
+          "อัปเดตล่าสุด " + new Date().toLocaleTimeString("th-TH", { hour12: false }),
+          false
+        );
+      } catch (error) {
+        setViewerDashboardStatus("เชื่อมต่อแดชบอร์ดไม่ได้", true);
+      } finally {
+        viewerDashboardRequestInFlight = false;
+      }
+    }
+
+    function startViewerDashboard() {
+      const config = readAnalyticsConfig();
+      trackViewerVisit(config);
+      refreshViewerDashboard(config);
+      if (viewerDashboardTimer) {
+        clearInterval(viewerDashboardTimer);
+      }
+      viewerDashboardTimer = window.setInterval(() => {
+        trackViewerVisit(config);
+        refreshViewerDashboard(config);
+      }, config.pollMs);
     }
 
     function initYouTubeAudioPlayer() {
@@ -1873,6 +2858,249 @@
       setMusicState(true, "กำลังเล่นเพลงอยู่");
     }
 
+    function getMonthsTogether(now) {
+      const yearGap = now.getFullYear() - START_DATE.getFullYear();
+      const monthGap = now.getMonth() - START_DATE.getMonth();
+      let totalMonths = yearGap * 12 + monthGap;
+
+      if (now.getDate() < START_DATE.getDate()) {
+        totalMonths -= 1;
+      }
+
+      return Math.max(0, totalMonths);
+    }
+
+    function getNextAnniversaryDate(now) {
+      const next = new Date(now.getFullYear(), now.getMonth(), MONTHLY_ANNIVERSARY_DAY, 0, 0, 0, 0);
+      if (now.getDate() > MONTHLY_ANNIVERSARY_DAY) {
+        next.setMonth(next.getMonth() + 1);
+      }
+      return next;
+    }
+
+    function buildFallbackEntry(month) {
+      const monthText = String(month).padStart(2, "0");
+      return {
+        month,
+        title: `Month ${month}: Our Story`,
+        period: `ช่วงเดือนที่ ${month} ของเรา`,
+        note: "คลิปนี้เก็บทุกโมเมนต์ที่อยากย้อนกลับมาดูอีกครั้ง",
+        videoSrc: `public/memories/month-${monthText}.mp4`
+      };
+    }
+
+    function getMemoryEntry(month) {
+      const safeMonth = Math.max(1, Number(month) || 1);
+      return MEMORY_ENTRIES.find((entry) => entry.month === safeMonth) || buildFallbackEntry(safeMonth);
+    }
+
+    function showMemoryToast(message) {
+      if (!memoryToast) return;
+      memoryToast.textContent = message;
+      memoryToast.classList.add("is-visible");
+      if (memoryToastTimer) {
+        clearTimeout(memoryToastTimer);
+      }
+      memoryToastTimer = setTimeout(() => {
+        memoryToast.classList.remove("is-visible");
+      }, 2200);
+    }
+
+    function openModal(modal) {
+      if (!modal) return;
+      modal.classList.add("is-open");
+      modal.setAttribute("aria-hidden", "false");
+    }
+
+    function closeModal(modal) {
+      if (!modal) return;
+      modal.classList.remove("is-open");
+      modal.setAttribute("aria-hidden", "true");
+    }
+
+    function resetMemoryVideoPlayback() {
+      if (!memoryVideo || !btnMemoryPlay) return;
+      memoryVideo.pause();
+      btnMemoryPlay.textContent = "💗 เล่นคลิป";
+    }
+
+    function setMemoryVideoSource(entry) {
+      if (!memoryVideo || !memoryVideoPlaceholder || !btnMemoryPlay) return;
+      resetMemoryVideoPlayback();
+      memoryVideo.hidden = true;
+      memoryVideo.removeAttribute("src");
+      memoryVideo.load();
+      memoryVideoPlaceholder.style.display = "grid";
+
+      const hasSource = Boolean(entry.videoSrc);
+      if (!hasSource) {
+        memoryVideoPlaceholder.innerHTML = "ยังไม่มีไฟล์คลิปของเดือนนี้<br>เพิ่มไฟล์ที่ public/memories/month-xx.mp4";
+        btnMemoryPlay.disabled = true;
+        btnMemoryPlay.textContent = "💗 รอคลิป";
+        return;
+      }
+
+      memoryVideo.src = entry.videoSrc;
+      memoryVideo.hidden = false;
+      memoryVideoPlaceholder.innerHTML = "กำลังโหลดคลิปความทรงจำ...";
+      btnMemoryPlay.disabled = false;
+      btnMemoryPlay.textContent = "💗 เล่นคลิป";
+      memoryVideo.load();
+    }
+
+    function openMemoryVideoModal(month) {
+      const entry = getMemoryEntry(month);
+      activeMemoryEntry = entry;
+
+      if (memoryMonthTag) {
+        memoryMonthTag.textContent = `Month ${entry.month}`;
+      }
+      if (memoryDateLabel) {
+        memoryDateLabel.textContent = entry.period;
+      }
+      if (memoryNoteText) {
+        memoryNoteText.textContent = entry.note;
+      }
+      setMemoryVideoSource(entry);
+      openModal(memoryVideoModal);
+    }
+
+    function closeMemoryVideoModal() {
+      resetMemoryVideoPlayback();
+      closeModal(memoryVideoModal);
+    }
+
+    function openMemoryLaneModal() {
+      openModal(memoryLaneModal);
+    }
+
+    function closeMemoryLaneModal() {
+      closeModal(memoryLaneModal);
+    }
+
+    function toggleMemoryPlayback() {
+      if (!memoryVideo || !btnMemoryPlay || btnMemoryPlay.disabled) return;
+      if (memoryVideo.paused) {
+        memoryVideo
+          .play()
+          .then(() => {
+            btnMemoryPlay.textContent = "💞 หยุดคลิป";
+          })
+          .catch(() => {
+            showMemoryToast("แตะอีกครั้งเพื่อเริ่มเล่นคลิป");
+          });
+        return;
+      }
+
+      memoryVideo.pause();
+      btnMemoryPlay.textContent = "💗 เล่นคลิป";
+    }
+
+    function renderMemoryLane(monthsTogether) {
+      if (!memoryLaneGrid) return;
+      if (memoryLaneRenderedForMonths === monthsTogether) return;
+      memoryLaneRenderedForMonths = monthsTogether;
+
+      const unlockedCount = Math.max(0, monthsTogether);
+      const maxDefinedMonth = MEMORY_ENTRIES.reduce((maxMonth, entry) => Math.max(maxMonth, entry.month), 1);
+      const maxMonth = Math.max(maxDefinedMonth, unlockedCount + 1);
+      memoryLaneGrid.innerHTML = "";
+
+      for (let month = 1; month <= maxMonth; month += 1) {
+        const entry = getMemoryEntry(month);
+        const unlocked = month <= unlockedCount;
+        const card = document.createElement("button");
+        card.type = "button";
+        card.className = `memory-lane-item${unlocked ? "" : " is-upcoming"}`;
+        card.innerHTML = `<h4>${entry.title}</h4><p>${entry.note}</p>`;
+
+        if (unlocked) {
+          card.addEventListener("click", () => {
+            closeMemoryLaneModal();
+            openMemoryVideoModal(month);
+          });
+        } else {
+          card.setAttribute("aria-disabled", "true");
+          card.addEventListener("click", () => {
+            showMemoryToast("เดือนนี้ยังไม่ปลดล็อก รอถึงวันที่ 6 นะคะ");
+          });
+        }
+
+        memoryLaneGrid.appendChild(card);
+      }
+    }
+
+    function spawnConfetti(count = 70) {
+      const confettiColors = ["#ff80bf", "#8ab7ff", "#ffd27e", "#88e3c8", "#f8a2d4"];
+      for (let i = 0; i < count; i += 1) {
+        const piece = document.createElement("span");
+        piece.className = "confetti-piece";
+        piece.style.left = `${(Math.random() * 100).toFixed(2)}%`;
+        piece.style.background = confettiColors[i % confettiColors.length];
+        piece.style.setProperty("--dx", `${(Math.random() * 180 - 90).toFixed(1)}px`);
+        piece.style.setProperty("--dy", `${(window.innerHeight * (0.7 + Math.random() * 0.55)).toFixed(0)}px`);
+        piece.style.setProperty("--rot", `${(Math.random() * 640 - 320).toFixed(1)}deg`);
+        piece.style.setProperty("--dur", `${(2.2 + Math.random() * 1.7).toFixed(2)}s`);
+        document.body.appendChild(piece);
+        setTimeout(() => {
+          piece.remove();
+        }, 4200);
+      }
+    }
+
+    function updateDiarySurprise(now) {
+      if (!diarySurprise || !diaryStatus || !diaryBook || !diaryMonthPill || !btnDiaryOpen) {
+        return;
+      }
+
+      const isAnniversaryDay = now.getDate() === MONTHLY_ANNIVERSARY_DAY;
+      const monthsTogether = getMonthsTogether(now);
+      const currentAnniversaryMonth = Math.max(1, monthsTogether);
+      const nextAnniversaryMonth = Math.max(1, monthsTogether + 1);
+      renderMemoryLane(monthsTogether);
+
+      if (isAnniversaryDay) {
+        isDiaryUnlocked = true;
+        unlockedAnniversaryMonth = currentAnniversaryMonth;
+        diarySurprise.classList.remove("is-locked");
+        diarySurprise.classList.add("is-unlocked");
+        diaryMonthPill.textContent = `Month ${currentAnniversaryMonth}`;
+        diaryStatus.textContent = `สุขสันต์ครบรอบเดือนที่ ${currentAnniversaryMonth} เปิดอัลบั้มไดอารี่ได้เลย 🎁`;
+        btnDiaryOpen.setAttribute("aria-disabled", "false");
+        btnDiaryOpen.classList.remove("is-locked");
+        btnDiaryOpen.classList.add("is-live");
+        btnDiaryOpen.textContent = `เปิดอัลบั้มไดอารี่ เดือนที่ ${currentAnniversaryMonth} 🎁`;
+
+        const celebrationKey = `${now.getFullYear()}-${now.getMonth()}`;
+        if (diaryCelebratedMonthKey !== celebrationKey) {
+          diaryCelebratedMonthKey = celebrationKey;
+          triggerLoveCelebration();
+          setMonMode("kiss");
+        }
+
+        if (confettiCelebratedMonthKey !== celebrationKey) {
+          confettiCelebratedMonthKey = celebrationKey;
+          spawnConfetti();
+          showMemoryToast("วันนี้วันพิเศษ เปิดกล่องความทรงจำได้แล้ว 💖");
+        }
+        return;
+      }
+
+      isDiaryUnlocked = false;
+      diarySurprise.classList.add("is-locked");
+      diarySurprise.classList.remove("is-unlocked");
+      diaryMonthPill.textContent = `Month ${nextAnniversaryMonth}`;
+      btnDiaryOpen.setAttribute("aria-disabled", "true");
+      btnDiaryOpen.classList.add("is-locked");
+      btnDiaryOpen.classList.remove("is-live");
+      btnDiaryOpen.textContent = "รอเปิดกล่องความทรงจำวันที่ 6 นะ 🤫";
+
+      const nextAnniversary = getNextAnniversaryDate(now);
+      const msUntilNext = Math.max(0, nextAnniversary.getTime() - now.getTime());
+      const daysUntilNext = Math.max(1, Math.ceil(msUntilNext / 86400000));
+      diaryStatus.textContent = `Surprise is locking... 🔒 อีก ${daysUntilNext} วันจะถึงวันเปิดอัลบั้ม`;
+    }
+
     function updateClock() {
       const now = new Date();
       const diff = Math.max(0, now.getTime() - START_DATE.getTime());
@@ -1918,6 +3146,7 @@
       orbitHandSecond.style.transform = `translate(-50%, -100%) rotate(${second * 6}deg)`;
       orbitHandMinute.style.transform = `translate(-50%, -100%) rotate(${minute * 6}deg)`;
       orbitHandHour.style.transform = `translate(-50%, -100%) rotate(${hour * 30}deg)`;
+      updateDiarySurprise(now);
 
       if (second !== lastPulseSecond) {
         lastPulseSecond = second;
@@ -2179,6 +3408,100 @@
       triggerLoveCelebration();
     });
 
+    if (btnDiaryOpen) {
+      btnDiaryOpen.addEventListener("click", (event) => {
+        const isLocked = !isDiaryUnlocked || btnDiaryOpen.getAttribute("aria-disabled") === "true";
+        if (isLocked) {
+          btnDiaryOpen.classList.remove("shake");
+          void btnDiaryOpen.offsetWidth;
+          btnDiaryOpen.classList.add("shake");
+          showMemoryToast("ใจเย็นๆ น้าา รอดูวันที่ 6 นะคะ!");
+          return;
+        }
+
+        const rect = event.currentTarget.getBoundingClientRect();
+        burst(rect.left + rect.width / 2, rect.top + rect.height / 2, 18);
+        openMemoryVideoModal(unlockedAnniversaryMonth);
+      });
+    }
+
+    if (btnMemoryLane) {
+      btnMemoryLane.addEventListener("click", () => {
+        openMemoryLaneModal();
+      });
+    }
+
+    if (btnMemoryPlay) {
+      btnMemoryPlay.addEventListener("click", toggleMemoryPlayback);
+    }
+
+    if (btnMemoryVideoClose) {
+      btnMemoryVideoClose.addEventListener("click", closeMemoryVideoModal);
+    }
+
+    if (btnMemoryLaneClose) {
+      btnMemoryLaneClose.addEventListener("click", closeMemoryLaneModal);
+    }
+
+    if (memoryVideo) {
+      memoryVideo.addEventListener("play", () => {
+        if (btnMemoryPlay) {
+          btnMemoryPlay.textContent = "💞 หยุดคลิป";
+        }
+      });
+
+      memoryVideo.addEventListener("pause", () => {
+        if (btnMemoryPlay) {
+          btnMemoryPlay.textContent = "💗 เล่นคลิป";
+        }
+      });
+
+      memoryVideo.addEventListener("ended", () => {
+        if (btnMemoryPlay) {
+          btnMemoryPlay.textContent = "💗 เล่นอีกครั้ง";
+        }
+      });
+
+      memoryVideo.addEventListener("canplay", () => {
+        if (memoryVideoPlaceholder) {
+          memoryVideoPlaceholder.style.display = "none";
+        }
+      });
+
+      memoryVideo.addEventListener("error", () => {
+        memoryVideo.hidden = true;
+        if (memoryVideoPlaceholder) {
+          memoryVideoPlaceholder.style.display = "grid";
+          memoryVideoPlaceholder.innerHTML = "ไม่พบไฟล์คลิปเดือนนี้<br>เช็กพาธ public/memories/month-xx.mp4";
+        }
+        if (btnMemoryPlay) {
+          btnMemoryPlay.disabled = true;
+          btnMemoryPlay.textContent = "💗 ยังไม่มีไฟล์";
+        }
+      });
+    }
+
+    document.querySelectorAll("[data-modal-close]").forEach((node) => {
+      node.addEventListener("click", (event) => {
+        const targetModal = event.currentTarget.dataset.modalClose;
+        if (targetModal === "memory-video") {
+          closeMemoryVideoModal();
+        } else if (targetModal === "memory-lane") {
+          closeMemoryLaneModal();
+        }
+      });
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key !== "Escape") return;
+      if (memoryVideoModal && memoryVideoModal.classList.contains("is-open")) {
+        closeMemoryVideoModal();
+      }
+      if (memoryLaneModal && memoryLaneModal.classList.contains("is-open")) {
+        closeMemoryLaneModal();
+      }
+    });
+
     orbitClock.addEventListener("click", () => {
       const rect = orbitClock.getBoundingClientRect();
       orbitClock.classList.remove("turbo");
@@ -2206,6 +3529,7 @@
     document.addEventListener("visibilitychange", () => {
       if (document.hidden) {
         clearLoveCelebration(true);
+        resetMemoryVideoPlayback();
       }
     });
 
@@ -2225,6 +3549,12 @@
         setTimeout(() => {
           monchhichiWrap.classList.remove("love-pop");
         }, 480);
+      });
+    }
+
+    if (viewerTotalViews) {
+      viewerTotalViews.addEventListener("animationend", () => {
+        viewerTotalViews.classList.remove("pulse");
       });
     }
 
@@ -2254,9 +3584,31 @@
     if (window.YT && window.YT.Player) {
       initYouTubeAudioPlayer();
     }
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", startViewerDashboard, { once: true });
+    } else {
+      startViewerDashboard();
+    }
+    window.addEventListener(
+      "pagehide",
+      () => {
+        if (viewerDashboardTimer) {
+          clearInterval(viewerDashboardTimer);
+          viewerDashboardTimer = null;
+        }
+      },
+      { once: true }
+    );
     setMonMode("idle");
     updateClock();
     setInterval(updateClock, 1000);
   </script>
+  <script
+    id="analytics-config"
+    data-base-url="http://localhost:3000"
+    data-api-key="replace-with-your-key"
+    data-track="true"
+    data-poll-ms="5000"
+  ></script>
 </body>
 </html>
