@@ -1717,6 +1717,18 @@
       display: none;
     }
 
+    .memory-embed {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      display: block;
+      background: #120d1d;
+    }
+
+    .memory-embed[hidden] {
+      display: none;
+    }
+
     .memory-placeholder {
       position: absolute;
       inset: 0;
@@ -2345,7 +2357,7 @@
             <div class="diary-book" id="diary-book">
               <article class="diary-page">
                 <span class="diary-page-label">หน้า 01</span>
-                <p>เดือนแรกของเราเริ่มจากเรื่องเล็กๆ แต่ทุกวินาทีมีความหมายเสมอ.</p>
+                <p>เดือนแรกของเราเริ่มจากเรื่องเล็กๆ แต่ทุกอย่างพิเศษมาก</p>
               </article>
               <article class="diary-page">
                 <span class="diary-page-label">หน้า 02</span>
@@ -2462,6 +2474,16 @@
       <div class="memory-polaroid">
         <div class="memory-video-wrap">
           <video class="memory-video" id="memory-video" preload="metadata" playsinline hidden></video>
+          <iframe
+            class="memory-embed"
+            id="memory-embed"
+            src=""
+            loading="lazy"
+            referrerpolicy="strict-origin-when-cross-origin"
+            allow="autoplay; encrypted-media; picture-in-picture"
+            allowfullscreen
+            hidden
+          ></iframe>
           <div class="memory-placeholder" id="memory-video-placeholder">
             กำลังเตรียมคลิปเดือนนี้อยู่<br>
             ใส่ไฟล์วิดีโอได้ที่ `public/memories/month-xx.mp4`
@@ -2533,6 +2555,7 @@
     const btnMemoryVideoClose = document.getElementById("btn-memory-video-close");
     const btnMemoryLaneClose = document.getElementById("btn-memory-lane-close");
     const memoryVideo = document.getElementById("memory-video");
+    const memoryEmbed = document.getElementById("memory-embed");
     const memoryVideoPlaceholder = document.getElementById("memory-video-placeholder");
     const memoryMonthTag = document.getElementById("memory-month-tag");
     const memoryDateLabel = document.getElementById("memory-date-label");
@@ -2549,7 +2572,8 @@
         title: "Month 1: The Beginning",
         period: "ช่วงเดือนที่ 1 ของเรา",
         note: "เดือนแรกของเราเริ่มจากเรื่องเล็กๆ แต่ทุกอย่างพิเศษมาก",
-        videoSrc: "public/memories/month-01.mp4"
+        embedSrc: "https://drive.google.com/file/d/1QpkSSglyVVzhcPDEOGgwaWLB4QVfT2bu/preview",
+        videoSrc: ""
       },
       {
         month: 2,
@@ -2612,6 +2636,7 @@
     let isDiaryUnlocked = false;
     let unlockedAnniversaryMonth = 1;
     let activeMemoryEntry = null;
+    let activeMemoryMediaType = "video";
     let memoryToastTimer = null;
     let memoryLaneRenderedForMonths = -1;
 
@@ -2636,9 +2661,13 @@
 
     function readAnalyticsConfig() {
       const analyticsScript = document.getElementById("analytics-config");
+      const currentOrigin =
+        typeof window.location.origin === "string" && window.location.origin !== "null"
+          ? window.location.origin
+          : "http://localhost:3000";
       const rawBaseUrl =
         (analyticsScript && (analyticsScript.dataset.baseUrl || analyticsScript.dataset.endpoint)) ||
-        window.location.origin;
+        currentOrigin;
       const pollMsRaw = Number((analyticsScript && analyticsScript.dataset.pollMs) || 5000);
       const shouldTrack = ((analyticsScript && analyticsScript.dataset.track) || "true").toLowerCase() !== "false";
 
@@ -2919,9 +2948,17 @@
     }
 
     function resetMemoryVideoPlayback() {
-      if (!memoryVideo || !btnMemoryPlay) return;
-      memoryVideo.pause();
-      btnMemoryPlay.textContent = "💗 เล่นคลิป";
+      if (memoryVideo) {
+        memoryVideo.pause();
+      }
+      if (memoryEmbed) {
+        memoryEmbed.hidden = true;
+        memoryEmbed.setAttribute("src", "");
+      }
+      activeMemoryMediaType = "video";
+      if (btnMemoryPlay) {
+        btnMemoryPlay.textContent = "💗 เล่นคลิป";
+      }
     }
 
     function setMemoryVideoSource(entry) {
@@ -2930,9 +2967,24 @@
       memoryVideo.hidden = true;
       memoryVideo.removeAttribute("src");
       memoryVideo.load();
+      if (memoryEmbed) {
+        memoryEmbed.hidden = true;
+        memoryEmbed.setAttribute("src", "");
+      }
       memoryVideoPlaceholder.style.display = "grid";
 
+      const hasEmbed = Boolean(entry.embedSrc);
       const hasSource = Boolean(entry.videoSrc);
+      if (hasEmbed && memoryEmbed) {
+        activeMemoryMediaType = "embed";
+        memoryEmbed.setAttribute("src", entry.embedSrc);
+        memoryEmbed.hidden = false;
+        memoryVideoPlaceholder.style.display = "none";
+        btnMemoryPlay.disabled = true;
+        btnMemoryPlay.textContent = "💗 เล่นผ่านตัวเล่นด้านบน";
+        return;
+      }
+
       if (!hasSource) {
         memoryVideoPlaceholder.innerHTML = "ยังไม่มีไฟล์คลิปของเดือนนี้<br>เพิ่มไฟล์ที่ public/memories/month-xx.mp4";
         btnMemoryPlay.disabled = true;
@@ -2979,6 +3031,10 @@
     }
 
     function toggleMemoryPlayback() {
+      if (activeMemoryMediaType === "embed") {
+        showMemoryToast("ใช้ปุ่มเล่นบนวิดีโอด้านบนได้เลย");
+        return;
+      }
       if (!memoryVideo || !btnMemoryPlay || btnMemoryPlay.disabled) return;
       if (memoryVideo.paused) {
         memoryVideo
@@ -3605,7 +3661,7 @@
   </script>
   <script
     id="analytics-config"
-    data-base-url="http://localhost:3000"
+    data-base-url=""
     data-api-key="replace-with-your-key"
     data-track="true"
     data-poll-ms="5000"
